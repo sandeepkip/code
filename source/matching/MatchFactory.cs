@@ -16,7 +16,7 @@ namespace code.matching
       return new AnonymousMatch<Item>(x => accessor(x).Equals(value));
     }
 
-    public IMatchAn<Item> equal_to_any(params Item[] values)
+    public IMatchAn<Item> equal_to_any(params AttributeType[] values)
     {
       throw new System.NotImplementedException();
     }
