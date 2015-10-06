@@ -1,5 +1,4 @@
-using System.Collections.Generic;
-using code.prep.movies;
+using code.enumerables;
 
 namespace code.matching
 {
@@ -19,8 +18,7 @@ namespace code.matching
 
     public IMatchAn<Item> equal_to_any(params AttributeType[] values)
     {
-      return AnonymousMatchFactory.GetAnonymousMatch<Item>(x =>
-        new List<AttributeType>(values).Contains(accessor(x)));
+      return create_from_match(new EqualToAny<AttributeType>(values));
     }
 
     public IMatchAn<Item> not_equal_to(AttributeType value)
@@ -28,5 +26,30 @@ namespace code.matching
       return equal_to(value).negate();
     }
 
+    class AnonymousMatch<T> : IMatchAn<T>
+    {
+      Criteria<T> criteria;
+
+      public AnonymousMatch(Criteria<T> criteria)
+      {
+        this.criteria = criteria;
+      }
+
+      public bool matches(T item)
+      {
+        return criteria.Invoke(item);
+      }
+    }
+
+    public IMatchAn<Item> create_from_criteria(Criteria<Item> criteria)
+    {
+      return new AnonymousMatch<Item>(criteria);
+    }
+
+    public IMatchAn<Item> create_from_match(IMatchAn<AttributeType> value_matcher)
+    {
+      return new AttributeMatch<Item, AttributeType>(accessor,
+        value_matcher);
+    }
   }
 }

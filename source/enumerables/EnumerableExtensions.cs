@@ -24,5 +24,6 @@ namespace code.enumerables
     {
       return items.all_items_matching(criteria.matches);
     }
+
   }
 }

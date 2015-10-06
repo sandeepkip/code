@@ -1,29 +1,33 @@
 using System;
-using code.prep.movies;
+using code.enumerables;
+using code.ranges;
+
 namespace code.matching
 
 {
-  public class ComparableMatchFactory<Item, AttributeType> : ICreateMatchers<Item, AttributeType> 
+  public class ComparableMatchFactory<Item, AttributeType> : ICreateMatchers<Item, AttributeType>
     where AttributeType : IComparable<AttributeType>
   {
-    IGetAnAttributeValue<Item, AttributeType> accessor;
     ICreateMatchers<Item, AttributeType> original;
 
-    public ComparableMatchFactory(IGetAnAttributeValue<Item, AttributeType> accessor, ICreateMatchers<Item, AttributeType> original)
+    public ComparableMatchFactory(ICreateMatchers<Item, AttributeType> original)
     {
-      this.accessor = accessor;
       this.original = original;
     }
 
     public IMatchAn<Item> greater_than(AttributeType value)
     {
-      return AnonymousMatchFactory.GetAnonymousMatch<Item>(x => accessor(x).CompareTo(value) > 0);
+      return falls_in_range(new RangeWithNoUpperBound<AttributeType>(value));
     }
 
     public IMatchAn<Item> between(AttributeType start, AttributeType end)
     {
-      return AnonymousMatchFactory.GetAnonymousMatch<Item>(x => accessor(x).CompareTo(start) >= 0 &&
-                                           accessor(x).CompareTo(end) <= 0);
+      return falls_in_range(new InclusiveRange<AttributeType>(start, end));
+    }
+
+    public IMatchAn<Item> falls_in_range(IContainValues<AttributeType> range)
+    {
+      return create_from_match(new FallsInRange<AttributeType>(range));
     }
 
     public IMatchAn<Item> equal_to(AttributeType value)
@@ -39,6 +43,16 @@ namespace code.matching
     public IMatchAn<Item> not_equal_to(AttributeType value)
     {
       return original.not_equal_to(value);
+    }
+
+    public IMatchAn<Item> create_from_criteria(Criteria<Item> criteria)
+    {
+      return original.create_from_criteria(criteria);
+    }
+
+    public IMatchAn<Item> create_from_match(IMatchAn<AttributeType> value_matcher)
+    {
+      return original.create_from_match(value_matcher);
     }
   }
 }
