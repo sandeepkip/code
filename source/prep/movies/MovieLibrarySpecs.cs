@@ -205,8 +205,11 @@ namespace code.prep.movies
 
       It finds_all_movies_published_by_pixar_or_disney = () =>
       {
+        var criteria = Match<Movie>.attribute(x => x.production_studio)
+                                   .equal_to_any(ProductionStudio.Pixar,ProductionStudio.Disney);
+
         var results = sut.all_movies()
-              .all_items_matching(Movie.is_published_by_pixar_or_disney());
+              .all_items_matching(criteria);
 
         results.ShouldContainOnly(a_bugs_life, pirates_of_the_carribean, cars);
       };
