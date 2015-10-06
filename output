@@ -1,0 +1,29 @@
+source\prep\movies\MovieLibrarySpecs.cs(196,54): error CS1061: 'object' does not contain a definition for 'production_studio' and no extension method 'production_studio' accepting a first argument of type 'object' could be found (are you missing a using directive or an assembly reference?)
+source\prep\movies\MovieLibrarySpecs.cs(197,36): error CS0023: Operator '.' cannot be applied to operand of type 'void'
+
+Failures:
+
+MovieLibrary, sorting movies
+¯ by title descending (FAIL)
+System.NotImplementedException: The method or operation is not implemented.
+   at code.prep.movies.MovieLibrary.sort_all_movies_by_title_descending() in c:\course\code\source\prep\movies\MovieLibrary.cs:line 84
+   at code.prep.movies.MovieLibrarySpecs.sorting_movies.<>c.<.ctor>b__5_0() in c:\course\code\source\prep\movies\MovieLibrarySpecs.cs:line 254
+¯ by title ascending (FAIL)
+System.NotImplementedException: The method or operation is not implemented.
+   at code.prep.movies.MovieLibrary.sort_all_movies_by_title_ascending() in c:\course\code\source\prep\movies\MovieLibrary.cs:line 89
+   at code.prep.movies.MovieLibrarySpecs.sorting_movies.<>c.<.ctor>b__5_1() in c:\course\code\source\prep\movies\MovieLibrarySpecs.cs:line 263
+¯ by date published descending (FAIL)
+System.NotImplementedException: The method or operation is not implemented.
+   at code.prep.movies.MovieLibrary.sort_all_movies_by_date_published_descending() in c:\course\code\source\prep\movies\MovieLibrary.cs:line 99
+   at code.prep.movies.MovieLibrarySpecs.sorting_movies.<>c.<.ctor>b__5_2() in c:\course\code\source\prep\movies\MovieLibrarySpecs.cs:line 272
+¯ by date published ascending (FAIL)
+System.NotImplementedException: The method or operation is not implemented.
+   at code.prep.movies.MovieLibrary.sort_all_movies_by_date_published_ascending() in c:\course\code\source\prep\movies\MovieLibrary.cs:line 104
+   at code.prep.movies.MovieLibrarySpecs.sorting_movies.<>c.<.ctor>b__5_3() in c:\course\code\source\prep\movies\MovieLibrarySpecs.cs:line 281
+¯ by studio rating and year published (FAIL)
+System.NotImplementedException: The method or operation is not implemented.
+   at code.prep.movies.MovieLibrary.sort_all_movies_by_movie_studio_and_year_published() in c:\course\code\source\prep\movies\MovieLibrary.cs:line 94
+   at code.prep.movies.MovieLibrarySpecs.sorting_movies.<>c.<.ctor>b__5_4() in c:\course\code\source\prep\movies\MovieLibrarySpecs.cs:line 296
+
+Contexts: 8, Specifications: 18, Time: 0.22 seconds
+  13 passed, 5 failed
