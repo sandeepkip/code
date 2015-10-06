@@ -12,7 +12,8 @@ module Automation
       FileUtils.cp(settings.edit_project_template, edit_file)
       unit = get_compile_unit(unit)
       configure(compile_unit: unit)
-      invoke 'automation:expand'
+
+      invoke 'automation:expand', [], {}
       FileUtils.rm edit_file
     end
 
