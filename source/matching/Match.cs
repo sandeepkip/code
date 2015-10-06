@@ -1,3 +1,5 @@
+using System;
+
 namespace code.matching
 {
   public class Match<Item>
@@ -6,6 +8,12 @@ namespace code.matching
       IGetAnAttributeValue<Item, AttributeType> accessor)
     {
       return new MatchFactory<Item, AttributeType>(accessor);
+    }
+
+    public static ComparableMatchFactory<Item, AttributeType> comparable_attribute<AttributeType>(
+      IGetAnAttributeValue<Item, AttributeType> accessor) where AttributeType : IComparable<AttributeType>
+    {
+      return new ComparableMatchFactory<Item, AttributeType>(accessor);
     }
   }
 }
