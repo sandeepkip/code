@@ -19,7 +19,7 @@ namespace code.matching
 
     public IMatchAn<Item> equal_to_any(params AttributeType[] values)
     {
-      return new AnonymousMatch<Item>(x =>
+      return AnonymousMatchFactory.GetAnonymousMatch<Item>(x =>
         new List<AttributeType>(values).Contains(accessor(x)));
     }
 

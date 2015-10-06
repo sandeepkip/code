@@ -17,12 +17,12 @@ namespace code.matching
 
     public IMatchAn<Item> greater_than(AttributeType value)
     {
-      return new AnonymousMatch<Item>(x => accessor(x).CompareTo(value) > 0);
+      return AnonymousMatchFactory.GetAnonymousMatch<Item>(x => accessor(x).CompareTo(value) > 0);
     }
 
     public IMatchAn<Item> between(AttributeType start, AttributeType end)
     {
-      return new AnonymousMatch<Item>(x => accessor(x).CompareTo(start) >= 0 &&
+      return AnonymousMatchFactory.GetAnonymousMatch<Item>(x => accessor(x).CompareTo(start) >= 0 &&
                                            accessor(x).CompareTo(end) <= 0);
     }
 
