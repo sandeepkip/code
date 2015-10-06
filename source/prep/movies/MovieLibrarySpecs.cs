@@ -238,7 +238,7 @@ namespace code.prep.movies
       It finds_all_movies_published_between_a_certain_range_of_years = () =>
       {
         var criteria = Match<Movie>.attribute(x => x.date_published)
-                                   .between(1982,2003);
+                                   .year_is_between(1982,2003);
 
         var results = sut.all_movies().all_items_matching(criteria);
 
