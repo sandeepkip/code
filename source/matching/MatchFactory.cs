@@ -1,4 +1,7 @@
+using System.Collections.Generic;
+using code.enumerables;
 using code.prep.movies;
+using FluentNHibernate.Testing.Values;
 
 namespace code.matching
 {
@@ -13,21 +16,18 @@ namespace code.matching
 
     public IMatchAn<Item> equal_to(AttributeType value)
     {
-      return new AnonymousMatch<Item>(x => accessor(x).Equals(value));
+      return equal_to_any(value);
     }
 
     public IMatchAn<Item> equal_to_any(params AttributeType[] values)
     {
-        AttributeType previous = default(AttributeType);
-        foreach (var value in values)
-        {
-            if (previous == null)
-            {
-                previous = value;
-                continue;
-            }
-            return equal_to(value).matches(previous());
-        }
+      return new AnonymousMatch<Item>(x => 
+        new List<AttributeType>(values).Contains(accessor(x)));
+    }
+
+    public IMatchAn<Item> not_equal_to(AttributeType value)
+    {
+      throw new System.NotImplementedException();
     }
   }
 }
