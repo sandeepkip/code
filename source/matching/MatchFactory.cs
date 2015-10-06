@@ -3,7 +3,7 @@ using code.prep.movies;
 
 namespace code.matching
 {
-  public class MatchFactory<Item, AttributeType>
+  public class MatchFactory<Item, AttributeType> : ICreateMatchers<Item, AttributeType>
   {
     IGetAnAttributeValue<Item, AttributeType> accessor;
 
