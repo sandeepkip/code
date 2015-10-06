@@ -35,8 +35,7 @@ namespace code.prep.movies
 
     public IEnumerable<Movie> all_matching_criteria(MovieCriteria criteria)
     {
-      var y = new IMatchA<Movie>(criteria);
-      return movies.all_items_matching(y);
+      return movies.all_items_matching(new AnonymousMatch<Movie>(criteria.Invoke));
     }
 
     public IEnumerable<Movie> all_movies_published_by_pixar()
