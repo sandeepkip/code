@@ -1,19 +1,11 @@
-using System;
-
 namespace code.matching
 {
-  public class Match<Item>
+  public class Match<ItemToMatch>
   {
-    public static MatchFactory<Item, AttributeType> attribute<AttributeType>(
-      IGetAnAttributeValue<Item, AttributeType> accessor)
+    public static MatchCreationExtensionPoint<ItemToMatch, AttributeType> attribute<AttributeType>(
+      IGetAnAttributeValue<ItemToMatch, AttributeType> accessor)
     {
-      return new MatchFactory<Item, AttributeType>(accessor);
-    }
-
-    public static ComparableMatchFactory<Item, AttributeType> comparable_attribute<AttributeType>(
-      IGetAnAttributeValue<Item, AttributeType> accessor) where AttributeType : IComparable<AttributeType>
-    {
-      return new ComparableMatchFactory<Item, AttributeType>(attribute(accessor));
+      return new MatchCreationExtensionPoint<ItemToMatch, AttributeType>(accessor);
     }
   }
 }

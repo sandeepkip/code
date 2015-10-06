@@ -26,21 +26,6 @@ namespace code.matching
       return equal_to(value).negate();
     }
 
-    class AnonymousMatch<T> : IMatchAn<T>
-    {
-      Criteria<T> criteria;
-
-      public AnonymousMatch(Criteria<T> criteria)
-      {
-        this.criteria = criteria;
-      }
-
-      public bool matches(T item)
-      {
-        return criteria.Invoke(item);
-      }
-    }
-
     public IMatchAn<Item> create_from_criteria(Criteria<Item> criteria)
     {
       return new AnonymousMatch<Item>(criteria);

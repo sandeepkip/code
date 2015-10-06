@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using code.enumerables;
 using code.matching;
 using code.ranges;
@@ -194,7 +195,6 @@ namespace code.prep.movies
 
       It finds_all_movies_published_by_pixar = () =>
       {
-
         var criteria = Match<Movie>.attribute(x => x.production_studio)
                                    .equal_to(ProductionStudio.Pixar);
 
@@ -227,7 +227,7 @@ namespace code.prep.movies
 
       It finds_all_movies_published_after_a_certain_year = () =>
       {
-        var criteria = Match<Movie>.comparable_attribute(x => x.date_published.Year)
+        var criteria = Match<Movie>.attribute(x => x.date_published.Year)
                                    .greater_than(2004);
 
         var results = sut.all_movies().all_items_matching(criteria);
@@ -237,7 +237,7 @@ namespace code.prep.movies
 
       It finds_all_movies_published_between_a_certain_range_of_years = () =>
       {
-        var criteria = Match<Movie>.comparable_attribute(x => x.date_published.Year)
+        var criteria = Match<Movie>.attribute(x => x.date_published)
                                    .between(1982,2003);
 
         var results = sut.all_movies().all_items_matching(criteria);
