@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using code.enumerables;
 
 namespace code.prep.movies
 {
@@ -14,114 +15,67 @@ namespace code.prep.movies
 
     public IEnumerable<Movie> all_movies()
     {
-      return movies;
+      return movies.one_at_a_time();
     }
 
     public void add(Movie movie)
     {
-        if (!movies.Contains(movie)) 
-        {
-            foreach (var m in movies)
-            {
-                if (movie.title == m.title)
-                    return;
-            }
+      if (already_contains(movie)) return;
 
-            movies.Add(movie);
-        }
+      movies.Add(movie);
+    }
+
+    bool already_contains(Movie movie)
+    {
+      return movies.Contains(movie);
+    }
+
+    public delegate bool MovieCriteria(Movie movie);
+
+    public IEnumerable<Movie> all_matching_criteria(MovieCriteria criteria)
+    {
+      return movies.all_items_matching(criteria.Invoke);
     }
 
     public IEnumerable<Movie> all_movies_published_by_pixar()
     {
-      var action_movies = new List<Movie>();
-      foreach(var m in all_movies())
-      {
-        if (m.production_studio == ProductionStudio.Pixar)
-        {
-          action_movies.Add(m);
-        }
-      }
-      return action_movies;
+      return all_matching_criteria(movie => movie.production_studio == ProductionStudio.Pixar);
     }
 
     public IEnumerable<Movie> all_movies_published_by_pixar_or_disney()
     {
-      var action_movies = new List<Movie>();
-      foreach(var m in all_movies())
-      {
-        if (m.production_studio == ProductionStudio.Pixar
-            || m.production_studio == ProductionStudio.Disney)
-        {
-          action_movies.Add(m);
-        }
-      }
-      return action_movies;
+      return all_matching_criteria(m => m.production_studio == ProductionStudio.Pixar
+                                        || m.production_studio == ProductionStudio.Disney);
     }
 
     public IEnumerable<Movie> all_movies_not_published_by_pixar()
     {
-      var action_movies = new List<Movie>();
-      foreach(var m in all_movies())
-      {
-        if (m.production_studio != ProductionStudio.Pixar)
-        {
-          action_movies.Add(m);
-        }
-      }
-      return action_movies;
+      return all_matching_criteria(m => m.production_studio != ProductionStudio.Pixar);
     }
 
     public IEnumerable<Movie> all_movies_published_after(int year)
     {
-      var action_movies = new List<Movie>();
-      foreach(var m in all_movies())
-      {
-        if (m.date_published.Year > year)
-        {
-          action_movies.Add(m);
-        }
-      }
-      return action_movies;
+      return all_matching_criteria(m => m.date_published.Year > year);
     }
 
     public IEnumerable<Movie> all_movies_published_between_years(int startingYear, int endingYear)
     {
-      var action_movies = new List<Movie>();
-      foreach(var m in all_movies())
-      {
-        if (m.date_published.Year >= startingYear 
-            && m.date_published.Year <= endingYear)
-        {
-          action_movies.Add(m);
-        }
-      }
-      return action_movies;
+      return all_matching_criteria(m => m.date_published.Year >= startingYear
+                                        && m.date_published.Year <= endingYear);
     }
 
     public IEnumerable<Movie> all_kid_movies()
     {
-      var action_movies = new List<Movie>();
-      foreach(var m in all_movies())
-      {
-        if (m.genre == Genre.kids)
-        {
-          action_movies.Add(m);
-        }
-      }
-      return action_movies;
+      return all_matching_criteria(m => m.genre == Genre.kids);
     }
 
     public IEnumerable<Movie> all_action_movies()
     {
-      var action_movies = new List<Movie>();
-      foreach(var m in all_movies())
+      foreach (var m in all_movies())
       {
         if (m.genre == Genre.action)
-        {
-          action_movies.Add(m);
-        }
+          yield return m;
       }
-      return action_movies;
     }
 
     public IEnumerable<Movie> sort_all_movies_by_title_descending()
