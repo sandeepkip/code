@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using code.enumerables;
+using code.matching;
 using developwithpassion.specifications.assertions;
 using developwithpassion.specifications.extensions;
 using developwithpassion.specifications.observations;
