@@ -1,5 +1,4 @@
 using System;
-using code.enumerables;
 using code.matching;
 
 namespace code.prep.movies
@@ -47,9 +46,8 @@ namespace code.prep.movies
 
     public static IMatchAn<Movie> is_published_by_pixar_or_disney()
     {
-      throw new NotImplementedException();
-//      return x => is_published_by(ProductionStudio.Pixar)(x) ||
-//                  is_published_by(ProductionStudio.Disney)(x);
+      return is_published_by(ProductionStudio.Pixar)
+        .or(is_published_by(ProductionStudio.Disney));
     }
   }
 }
