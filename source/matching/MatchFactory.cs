@@ -18,7 +18,16 @@ namespace code.matching
 
     public IMatchAn<Item> equal_to_any(params AttributeType[] values)
     {
-      throw new System.NotImplementedException();
+        AttributeType previous = default(AttributeType);
+        foreach (var value in values)
+        {
+            if (previous == null)
+            {
+                previous = value;
+                continue;
+            }
+            return equal_to(value).matches(previous());
+        }
     }
   }
 }
