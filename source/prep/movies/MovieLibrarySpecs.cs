@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using code.enumerables;
 using code.matching;
 using developwithpassion.specifications.assertions;
@@ -271,6 +272,10 @@ namespace code.prep.movies
 
       It by_title_descending = () =>
       {
+          //descending comparison of movie title dsl
+          var matcher = Match<string>.attribute(x => x)
+              .create_from_criteria(x => x.CompareTo(/*to what?*/));
+          var comparer = Match<Movie>.attribute(x => x.title).create_matcher(matcher);
         var results = sut.sort_all_movies_by_title_descending();
 
         results.should().contain_only_in_order(yours_mine_and_ours, theres_something_about_mary, shrek,
