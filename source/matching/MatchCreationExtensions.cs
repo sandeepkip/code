@@ -30,6 +30,7 @@ namespace code.matching
       return new AnonymousMatch<Item>(criteria);
     }
 
+
     public static IMatchAn<Item> create_from_match<Item, AttributeType>(
       this IProvideAccessToCreateMatchers<Item, AttributeType> extension_point, IMatchAn<AttributeType> value_matcher)
     {

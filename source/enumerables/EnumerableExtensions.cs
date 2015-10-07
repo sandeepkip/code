@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using code.matching;
+using developwithpassion.specification.specs;
 
 namespace code.enumerables
 {
@@ -26,9 +27,23 @@ namespace code.enumerables
       return items.all_items_matching(criteria.matches);
     }
 
-    public static IEnumerable<Item,AttributeType> where<Item, AttributeType>(this IEnumerable<Item> items, IGetAnAttributeValue<Item, AttributeType>  accessor) 
+    public static IEnumerable<Item> where<Item, AttributeType>(
+      this IEnumerable<Item> items,
+      IGetAnAttributeValue<Item, AttributeType> accessor, 
+      ICombineMatchers<Item> combination_strategy,
+      params Func<MatchCreationExtensionPoint<Item,AttributeType>, IMatchAn<Item>>[] match_builders)
     {
+
+      var extension_point = Match<Item>.attribute(accessor);
+      IMatchAn<Item> criteria = NeverMatches<Item>.instance;
+
+      foreach (var match_builder in match_builders)
+      {
+        var match = match_builder(extension_point);
+        criteria = combination_strategy(criteria, match);
+      }
+
+      return items.all_items_matching(criteria);
     }
   }
-
 }

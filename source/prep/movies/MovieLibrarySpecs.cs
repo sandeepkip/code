@@ -1,10 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using code.enumerables;
 using code.matching;
-using code.ranges;
 using developwithpassion.specifications.assertions;
 using developwithpassion.specifications.extensions;
 using developwithpassion.specifications.observations;
@@ -196,10 +194,10 @@ namespace code.prep.movies
       It finds_all_movies_published_by_pixar = () =>
       {
         var criteria = Match<Movie>.attribute(x => x.production_studio)
-                                   .equal_to(ProductionStudio.Pixar);
+          .equal_to(ProductionStudio.Pixar);
 
         var results = sut.all_movies()
-              .all_items_matching(criteria);
+          .all_items_matching(criteria);
 
         results.ShouldContainOnly(cars, a_bugs_life);
       };
@@ -207,10 +205,10 @@ namespace code.prep.movies
       It finds_all_movies_published_by_pixar_or_disney = () =>
       {
         var criteria = Match<Movie>.attribute(x => x.production_studio)
-                                   .equal_to_any(ProductionStudio.Pixar,ProductionStudio.Disney);
+          .equal_to_any(ProductionStudio.Pixar, ProductionStudio.Disney);
 
         var results = sut.all_movies()
-              .all_items_matching(criteria);
+          .all_items_matching(criteria);
 
         results.ShouldContainOnly(a_bugs_life, pirates_of_the_carribean, cars);
       };
@@ -218,20 +216,18 @@ namespace code.prep.movies
       It finds_all_movies_not_published_by_pixar = () =>
       {
         var criteria = Match<Movie>.attribute(x => x.production_studio)
-                                   .not.equal_to(ProductionStudio.Pixar);
+          .not.equal_to(ProductionStudio.Pixar);
+
+        var results = sut.all_movies().all_items_matching(criteria);
 
         results.ShouldNotContain(cars, a_bugs_life);
       };
 
       It finds_all_movies_published_after_a_certain_year = () =>
       {
-        var results = sut.all_movies()
-          .where(x => x.date_published.Year, [
-            condition => condition.greater_than(2004),
-            condition => condition.between(1982,2003),
-            condition => condition.not.equal_to(1985)
-          ], 
-          MatchCombinations.or<Movie>());
+        var criteria = Match<Movie>.attribute(x => x.date_published.Year).greater_than(2004);
+
+        var results = sut.all_movies().all_items_matching(criteria);
 
         results.ShouldContainOnly(yours_mine_and_ours, shrek, theres_something_about_mary);
       };
@@ -239,7 +235,7 @@ namespace code.prep.movies
       It finds_all_movies_published_between_a_certain_range_of_years = () =>
       {
         var criteria = Match<Movie>.attribute(x => x.date_published)
-                                   .year_is_between(1982,2003);
+          .year_is_between(1982, 2003);
 
         var results = sut.all_movies().all_items_matching(criteria);
 
@@ -258,10 +254,14 @@ namespace code.prep.movies
 
       It finds_all_action_movies = () =>
       {
-        var criteria = Match<Movie>.attribute(x => x.genre)
-          .equal_to(Genre.action);
+        var criteria = Match<Movie>.attribute(x => x.genre).equal_to(Genre.action)
+          .or(x => x.date_published.Year, x =>
+            x.greater_than(1999)
+              .or(x.between(1982, 2003))
+              .or(x.not.equal_to(1985)))
+          .or(new MovieTitleIsPresent());
 
-        var results = sut.all_movies().all_items_matching(criteria);
+        var results = sut.all_movies().Where(criteria.matches);
 
         results.ShouldContainOnly(indiana_jones_and_the_temple_of_doom, pirates_of_the_carribean);
       };
