@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using code.enumerables;
 using code.matching;
 using developwithpassion.specifications.assertions;
@@ -271,8 +272,8 @@ namespace code.prep.movies
 
       It by_title_descending = () =>
       {
-        var results = sut.sort_all_movies_by_title_descending();
-
+        var results = sut.sort_all_movies_by_title_descending(x => x.movie_title);
+        
         results.should().contain_only_in_order(yours_mine_and_ours, theres_something_about_mary, shrek,
           pirates_of_the_carribean, indiana_jones_and_the_temple_of_doom,
           cars, a_bugs_life);
@@ -281,7 +282,7 @@ namespace code.prep.movies
       It by_title_ascending = () =>
       {
         var results = sut.sort_all_movies_by_title_ascending();
-
+        
         results.should().contain_only_in_order(a_bugs_life, cars, indiana_jones_and_the_temple_of_doom,
           pirates_of_the_carribean, shrek,
           theres_something_about_mary, yours_mine_and_ours);
