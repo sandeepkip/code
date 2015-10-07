@@ -254,14 +254,9 @@ namespace code.prep.movies
 
       It finds_all_action_movies = () =>
       {
-        var criteria = Match<Movie>.attribute(x => x.genre).equal_to(Genre.action)
-          .or(x => x.date_published.Year, x =>
-            x.greater_than(1999)
-              .or(x.between(1982, 2003))
-              .or(x.not.equal_to(1985)))
-          .or(new MovieTitleIsPresent());
+        var criteria = Match<Movie>.attribute(x => x.genre).equal_to(Genre.action);
 
-        var results = sut.all_movies().Where(criteria.matches);
+        var results = sut.all_movies().all_items_matching(criteria);
 
         results.ShouldContainOnly(indiana_jones_and_the_temple_of_doom, pirates_of_the_carribean);
       };
