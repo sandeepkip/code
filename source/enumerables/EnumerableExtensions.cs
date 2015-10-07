@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using code.matching;
 
 namespace code.enumerables
@@ -25,5 +26,9 @@ namespace code.enumerables
       return items.all_items_matching(criteria.matches);
     }
 
+    public static IEnumerable<Item,AttributeType> where<Item, AttributeType>(this IEnumerable<Item> items, IGetAnAttributeValue<Item, AttributeType>  accessor) 
+    {
+    }
   }
+
 }

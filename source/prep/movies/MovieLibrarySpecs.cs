@@ -218,19 +218,20 @@ namespace code.prep.movies
       It finds_all_movies_not_published_by_pixar = () =>
       {
         var criteria = Match<Movie>.attribute(x => x.production_studio)
-                                   .not_equal_to(ProductionStudio.Pixar);
-
-        var results = sut.all_movies().all_items_matching(criteria);
+                                   .not.equal_to(ProductionStudio.Pixar);
 
         results.ShouldNotContain(cars, a_bugs_life);
       };
 
       It finds_all_movies_published_after_a_certain_year = () =>
       {
-        var criteria = Match<Movie>.attribute(x => x.date_published.Year)
-                                   .greater_than(2004);
-
-        var results = sut.all_movies().all_items_matching(criteria);
+        var results = sut.all_movies()
+          .where(x => x.date_published.Year, [
+            condition => condition.greater_than(2004),
+            condition => condition.between(1982,2003),
+            condition => condition.not.equal_to(1985)
+          ], 
+          MatchCombinations.or<Movie>());
 
         results.ShouldContainOnly(yours_mine_and_ours, shrek, theres_something_about_mary);
       };
