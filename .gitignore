@@ -56,3 +56,9 @@ register_endpoints.js
 /node_modules
 /packages
 /.bundle
+/npm-debug*
+/chromedriver.exe
+/vagrant
+/bower.json
+/Vagrantfile
+/automation/vagrant_scripts

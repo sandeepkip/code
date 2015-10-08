@@ -55,6 +55,9 @@ alias str='thor git:student_remotes'
 alias trash='thor git:trash'
 alias rf='bundle install && nuget update -self && nui && thor startup:configure'
 
+alias reb='vagrant ssh -c ". /vagrant/automation/vagrant_scripts/rebundle.sh"'
+alias cnm='vagrant ssh -c "rm -rf /vagrant/node_modules"'
+
 #Migration aliases
 alias clean='thor automation:clean'
 alias init='thor automation:clean'
