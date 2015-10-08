@@ -16,7 +16,7 @@ namespace code.web
 
     public class when_getting_the_handler_for_a_request : concern
     {
-      public class and_it_has_the_request
+      public class and_it_has_the_handler
       {
         Establish c = () =>
         {
@@ -41,6 +41,35 @@ namespace code.web
         static IHandleOneWebRequest handler_that_can_handle_request;
         static IProvideDetailsToHandlers request;
         static IList<IHandleOneWebRequest> all_handlers;
+      }
+
+      public class and_it_does_not_have_the_handler
+      {
+        Establish c = () =>
+        {
+          request = fake.an<IProvideDetailsToHandlers>();
+          all_handlers = Enumerable.Range(1, 1000).Select(x => fake.an<IHandleOneWebRequest>()).ToList();
+          special_case = fake.an<IHandleOneWebRequest>();
+
+          depends.on<ICreateAHandlerWhenNoneExistForARequest>(x =>
+          {
+            x.ShouldEqual(request);
+            return special_case;
+          });
+
+          depends.on<IEnumerable<IHandleOneWebRequest>>(all_handlers);
+        };
+
+        Because b = () =>
+          result = sut.get_handler_for_request(request);
+
+        It returns_the_handler_created_by_the_special_case_builder = () =>
+          result.ShouldEqual(special_case);
+
+        static IHandleOneWebRequest result;
+        static IProvideDetailsToHandlers request;
+        static IList<IHandleOneWebRequest> all_handlers;
+        static IHandleOneWebRequest special_case;
       }
     }
   }
