@@ -1,8 +1,7 @@
 namespace code.web
 {
-  public interface IHandleOneWebRequest
+  public interface IHandleOneWebRequest : IRunAUserFeature
   {
-    void process(IProvideDetailsToHandlers web_request);
     bool can_process(IProvideDetailsToHandlers request);
   }
 }
